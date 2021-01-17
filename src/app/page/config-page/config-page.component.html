@@ -1,0 +1,48 @@
+<button nz-button nzType="primary" (click)="addConfig()">添加配置项</button>
+<nz-divider></nz-divider>
+<nz-table #basicTable nzShowSizeChanger
+          [nzData]="listOfData"
+          [nzFrontPagination]="false"
+          [nzTotal]="totalElements"
+          [nzPageSize]="pageSize"
+          [nzPageIndex]="pageIndex"
+          (nzQueryParams)="onQueryParamsChange($event)"
+          [nzLoading]="isTableLoading">
+  <thead>
+  <tr>
+    <th>名称</th>
+    <th>值</th>
+    <th>更新时间</th>
+    <th>操作</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let config of basicTable.data">
+    <td>{{config.key}}</td>
+    <td>{{config.value}}</td>
+    <td>{{config.updateTime|date:'yyyy-MM-dd HH:mm:ss'}}</td>
+    <td>
+      <a (click)="modifyConfig(config)">修改</a>
+      <nz-divider nzType="vertical"></nz-divider>
+      <a (click)="deleteConfig(config)">删除</a>
+    </td>
+  </tr>
+  </tbody>
+</nz-table>
+<nz-modal [(nzVisible)]="isModalVisible" nzTitle="新的配置项" (nzOnCancel)="cancelModal()" (nzOnOk)="submitConfig()"
+          [nzOkLoading]="isModalLoading">
+  <form nz-form>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="6" nzFor="exchange">名称</nz-form-label>
+      <nz-form-control>
+        <input nz-input placeholder="key" [(ngModel)]="modalKey" [disabled]="!isKeyEditable" name="key"/>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="6" nzFor="exchange">值</nz-form-label>
+      <nz-form-control>
+        <input nz-input placeholder="value" [(ngModel)]="modalValue" name="value"/>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</nz-modal>

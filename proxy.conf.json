@@ -1,0 +1,9 @@
+{
+  "/api": {
+    "target": "dev.honeydome.kherrisan.cn:8080",
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": {
+    }
+  }
+}

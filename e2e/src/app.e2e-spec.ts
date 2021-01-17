@@ -8,7 +8,7 @@ describe('workspace-project App', () => {
     page = new AppPage();
   });
 
-  it('should display welcome message', async () => {
+  it('should display welcome-page message', async () => {
     await page.navigateTo();
     expect(await page.getTitleText()).toEqual('Honeydome-Web app is running!');
   });

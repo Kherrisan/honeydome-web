@@ -1,0 +1,74 @@
+<nz-table #basicTable [nzData]="listOfData">
+  <thead>
+  <tr>
+    <th>名称</th>
+    <th>操作</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let data of basicTable.data">
+    <td>{{data}}</td>
+    <td>
+      <a (click)="showModal(data)">运行</a>
+    </td>
+  </tr>
+  </tbody>
+</nz-table>
+
+<nz-modal [(nzVisible)]="isModalVisible" nzTitle="运行新的策略" (nzOnCancel)="cancelModal()" (nzOnOk)="submitNewStrategy()"
+          [nzOkLoading]="isModalLoading" [nzOkDisabled]="argsForm.invalid">
+  <div nz-row>
+    <div nz-col nzSpan="4">
+      <nz-form-label>运行类型</nz-form-label>
+    </div>
+    <div nz-col nzSpan="20">
+      <nz-select [(ngModel)]="processType" (ngModelChange)="processTypeChange($event)">
+        <nz-option nzValue="Firmbargain" nzLabel="实盘"></nz-option>
+        <nz-option nzValue="Backtest" nzLabel="回测"></nz-option>
+      </nz-select>
+    </div>
+  </div>
+  <form nz-form [formGroup]="argsForm">
+    <nz-divider></nz-divider>
+    <nz-form-item *ngFor="let control of listOfControl; let i = index">
+      <div nz-row>
+        <div nz-col nzSpan="4">
+          <nz-form-label [nzFor]="control.keyControl">参数#{{i + 1}}</nz-form-label>
+        </div>
+        <div nz-col nzSpan="8">
+          <nz-form-control>
+            <input
+              class="arg-input"
+              nz-input
+              placeholder="key"
+              [attr.id]="control.id"
+              [formControlName]="control.keyControl"
+            />
+          </nz-form-control>
+        </div>
+        <div nz-col nzSpan="10">
+          <nz-form-control>
+            <input
+              class="arg-input"
+              nz-input
+              placeholder="value"
+              [attr.id]="control.id"
+              [formControlName]="control.valueControl"
+            />
+          </nz-form-control>
+        </div>
+        <div nz-col>
+          <i nz-icon nzType="minus-circle-o" class="dynamic-delete-button" (click)="removeField(control, $event)"></i>
+        </div>
+      </div>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control [nzXs]="{ span: 24, offset: 0 }" [nzSm]="{ span: 20, offset: 4 }">
+        <button nz-button nzType="dashed" class="add-button" (click)="addField($event)">
+          <i nz-icon nzType="plus"></i>
+          添加参数
+        </button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</nz-modal>
