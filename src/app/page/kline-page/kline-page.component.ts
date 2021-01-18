@@ -13,7 +13,7 @@ export class KlinePageComponent implements OnInit {
 
   initial = false;
   formGroup: FormGroup;
-  listOfData: Array<Kline> = [{open: 1, close: 2, high: 3, low: 4, vol: 5, time: '1997-05-14 11:11:11'}];
+  listOfData: Array<Kline> = [];
   totalElements = 10;
   pageSize = 10;
   pageIndex = 1;
@@ -23,6 +23,7 @@ export class KlinePageComponent implements OnInit {
   period: 'MINUTE' | 'HOUR' | 'DAY' | 'WEEK' = 'DAY';
   startDatetime = null;
   endDatetime = null;
+  isSearched = false;
 
   constructor(private message: NzMessageService, private data: DataService, private formBuilder: FormBuilder) {
     this.formGroup = formBuilder.group({});
@@ -40,8 +41,9 @@ export class KlinePageComponent implements OnInit {
   }
 
   async onQueryParamsChange(params: NzTableQueryParams): Promise<void> {
-    if (!this.initial) {
-      this.initial = true;
+
+    if (this.isSearched) {
+      this.isSearched = false;
       return;
     }
     console.log(params);
@@ -53,11 +55,7 @@ export class KlinePageComponent implements OnInit {
     this.isTableLoading = true;
     let resp;
     try {
-      resp = await this.data.getKlines(this.exchange, this.symbol, this.period, null, null, {
-          page: pageIndex,
-          size: pageSize
-        }
-      ).toPromise();
+      resp = await this.data.getKlines(this.exchange, this.symbol, this.period, pageIndex, pageSize, null, null).toPromise();
     } catch (e) {
       this.message.error(e.message);
     }
@@ -65,5 +63,10 @@ export class KlinePageComponent implements OnInit {
     this.listOfData = resp.data;
     this.totalElements = resp.page.totalElements;
     this.pageSize = resp.page.size;
+  }
+
+  async search(): Promise<void> {
+    await this.loadKlineList(this.pageIndex, this.pageSize);
+    this.isSearched = false;
   }
 }

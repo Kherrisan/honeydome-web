@@ -19,7 +19,6 @@ import { Observable }                                        from 'rxjs';
 
 import { Config } from '../model/models';
 import { ConfigListPage } from '../model/models';
-import { Pageable } from '../model/models';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
@@ -139,19 +138,30 @@ export class ConfigService {
 
     /**
      * 查询配置项列表
-     * @param pageable 
+     * @param page 
+     * @param size 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getConfigList(pageable?: Pageable, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<ConfigListPage>;
-    public getConfigList(pageable?: Pageable, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<ConfigListPage>>;
-    public getConfigList(pageable?: Pageable, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<ConfigListPage>>;
-    public getConfigList(pageable?: Pageable, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+    public getConfigList(page: number, size: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<ConfigListPage>;
+    public getConfigList(page: number, size: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<ConfigListPage>>;
+    public getConfigList(page: number, size: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<ConfigListPage>>;
+    public getConfigList(page: number, size: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+        if (page === null || page === undefined) {
+            throw new Error('Required parameter page was null or undefined when calling getConfigList.');
+        }
+        if (size === null || size === undefined) {
+            throw new Error('Required parameter size was null or undefined when calling getConfigList.');
+        }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
-        if (pageable !== undefined && pageable !== null) {
+        if (page !== undefined && page !== null) {
           queryParameters = this.addToHttpParams(queryParameters,
-            <any>pageable, 'pageable');
+            <any>page, 'page');
+        }
+        if (size !== undefined && size !== null) {
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>size, 'size');
         }
 
         let headers = this.defaultHeaders;

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-abstract-page',
@@ -7,7 +7,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AbstractPageComponent implements OnInit {
 
-  constructor() { }
+  firmbargains = ['1'];
+  backtests = ['1'];
+
+  constructor() {
+  }
 
   ngOnInit(): void {
   }

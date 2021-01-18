@@ -18,7 +18,6 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 import { KlineListPage } from '../model/models';
-import { Pageable } from '../model/models';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
@@ -90,16 +89,17 @@ export class DataService {
      * @param exchange 
      * @param symbol 
      * @param period 
+     * @param page 
+     * @param size 
      * @param start 
      * @param end 
-     * @param pageable 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getKlines(exchange: string, symbol: string, period: 'MINUTE' | 'HOUR' | 'DAY' | 'WEEK', start?: string, end?: string, pageable?: Pageable, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<KlineListPage>;
-    public getKlines(exchange: string, symbol: string, period: 'MINUTE' | 'HOUR' | 'DAY' | 'WEEK', start?: string, end?: string, pageable?: Pageable, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<KlineListPage>>;
-    public getKlines(exchange: string, symbol: string, period: 'MINUTE' | 'HOUR' | 'DAY' | 'WEEK', start?: string, end?: string, pageable?: Pageable, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<KlineListPage>>;
-    public getKlines(exchange: string, symbol: string, period: 'MINUTE' | 'HOUR' | 'DAY' | 'WEEK', start?: string, end?: string, pageable?: Pageable, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+    public getKlines(exchange: string, symbol: string, period: 'MINUTE' | 'HOUR' | 'DAY' | 'WEEK', page: number, size: number, start?: string, end?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<KlineListPage>;
+    public getKlines(exchange: string, symbol: string, period: 'MINUTE' | 'HOUR' | 'DAY' | 'WEEK', page: number, size: number, start?: string, end?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<KlineListPage>>;
+    public getKlines(exchange: string, symbol: string, period: 'MINUTE' | 'HOUR' | 'DAY' | 'WEEK', page: number, size: number, start?: string, end?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<KlineListPage>>;
+    public getKlines(exchange: string, symbol: string, period: 'MINUTE' | 'HOUR' | 'DAY' | 'WEEK', page: number, size: number, start?: string, end?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (exchange === null || exchange === undefined) {
             throw new Error('Required parameter exchange was null or undefined when calling getKlines.');
         }
@@ -108,6 +108,12 @@ export class DataService {
         }
         if (period === null || period === undefined) {
             throw new Error('Required parameter period was null or undefined when calling getKlines.');
+        }
+        if (page === null || page === undefined) {
+            throw new Error('Required parameter page was null or undefined when calling getKlines.');
+        }
+        if (size === null || size === undefined) {
+            throw new Error('Required parameter size was null or undefined when calling getKlines.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
@@ -131,9 +137,13 @@ export class DataService {
           queryParameters = this.addToHttpParams(queryParameters,
             <any>end, 'end');
         }
-        if (pageable !== undefined && pageable !== null) {
+        if (page !== undefined && page !== null) {
           queryParameters = this.addToHttpParams(queryParameters,
-            <any>pageable, 'pageable');
+            <any>page, 'page');
+        }
+        if (size !== undefined && size !== null) {
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>size, 'size');
         }
 
         let headers = this.defaultHeaders;

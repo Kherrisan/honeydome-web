@@ -34,6 +34,11 @@ import {NzTimePickerModule} from 'ng-zorro-antd/time-picker';
 
 import {registerLocaleData} from '@angular/common';
 import zh from '@angular/common/locales/zh';
+import {NzStatisticModule} from 'ng-zorro-antd/statistic';
+import {NzListModule} from 'ng-zorro-antd/list';
+import {NzProgressModule} from 'ng-zorro-antd/progress';
+import {ProcessPageComponent} from './page/process-page/process-page.component';
+
 registerLocaleData(zh);
 
 const routes: Routes = [
@@ -68,7 +73,8 @@ const routes: Routes = [
     AbstractPageComponent,
     ConfigPageComponent,
     StrategyPageComponent,
-    KlinePageComponent
+    KlinePageComponent,
+    ProcessPageComponent
   ],
   imports: [
     RouterModule.forRoot(routes),
@@ -94,7 +100,10 @@ const routes: Routes = [
     ReactiveFormsModule,
     NzInputModule,
     NzDatePickerModule,
-    NzTimePickerModule
+    NzTimePickerModule,
+    NzStatisticModule,
+    NzListModule,
+    NzProgressModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthenticationInterceptor, multi: true},

@@ -31,7 +31,6 @@ export class ConfigPageComponent implements OnInit {
   }
 
   async onQueryParamsChange(params: NzTableQueryParams): Promise<void> {
-    console.log(params);
     const {pageSize, pageIndex} = params;
     await this.loadConfigList(pageIndex, pageSize);
   }
@@ -40,7 +39,7 @@ export class ConfigPageComponent implements OnInit {
     this.isTableLoading = true;
     let resp;
     try {
-      resp = await this.service.getConfigList({page: pageIndex, size: pageSize}).toPromise();
+      resp = await this.service.getConfigList(pageIndex, pageSize).toPromise();
     } catch (e) {
       this.message.error(e.message);
     }

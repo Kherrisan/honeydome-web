@@ -1,6 +1,48 @@
-<p>abstract-page works!</p>
+<div style="background: #ECECEC;padding:30px;">
+  <nz-row [nzGutter]="16">
+    <nz-col [nzSpan]="8">
+      <nz-statistic [nzValue]="(2019.111 | number: '1.0-2')!" [nzTitle]="'账户总额 (USDT)'"></nz-statistic>
+    </nz-col>
+    <nz-col [nzSpan]="8">
+      <nz-statistic [nzValue]="(3 | number)!" [nzTitle]="'运行中的策略进程'"></nz-statistic>
+    </nz-col>
+    <nz-col [nzSpan]="8">
+      <nz-statistic [nzValue]="(2019.111 | number: '1.0-2')!" [nzTitle]="'运行时间'"></nz-statistic>
+    </nz-col>
+  </nz-row>
+  <nz-row [nzGutter]="16" style="margin-top: 32px">
+    <nz-col [nzSpan]="8">
+      <nz-statistic [nzValue]="(2019.11 | number: '1.0-2')!" [nzTitle]="'日收益率'"></nz-statistic>
+    </nz-col>
+    <nz-col [nzSpan]="8">
+      <nz-statistic [nzValue]="(2019.11 | number: '1.0-2')!" [nzTitle]="'周收益率'"></nz-statistic>
+    </nz-col>
+    <nz-col [nzSpan]="8">
+      <nz-statistic [nzValue]="(2019.11 | number: '1.0-2')!" [nzTitle]="'总收益率'"></nz-statistic>
+    </nz-col>
+  </nz-row>
+</div>
+<h3 style="margin-top: 32px">实盘进程列表</h3>
+<nz-list nzBordered style="margin-top: 16px">
+  <nz-list-item *ngFor="let process of firmbargains">
+    <nz-list-item-meta-title>ProcessId</nz-list-item-meta-title>
+    <nz-list-item-meta-description>StrategyName</nz-list-item-meta-description>
+    args0:11111,args1:12222
+    args0:11111,args1:12222
+    args0:11111,args1:12222
+  </nz-list-item>
+</nz-list>
+<h3 style="margin-top: 32px">回测进程列表</h3>
+<nz-list nzBordered style="margin-top: 16px">
+  <nz-list-item *ngFor="let process of backtests">
+    111
+  </nz-list-item>
+  <nz-list-item>
+    <nz-progress [nzPercent]="50" nzSize="small" nzStatus="active"></nz-progress>
+  </nz-list-item>
+</nz-list>
 <nz-row>
-  <nz-col nzSpan="8">123</nz-col>
-  <nz-col nzSpan="8">123</nz-col>
-  <nz-col nzSpan="8">123</nz-col>
+  <nz-col nzSpan="6">
+    <nz-progress [nzPercent]="50" nzSize="small" nzStatus="active"></nz-progress>
+  </nz-col>
 </nz-row>
