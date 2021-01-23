@@ -1,6 +1,7 @@
 <nz-layout>
   <nz-layout class="app-layout">
-    <nz-sider class="menu-sidebar" nzCollapsible nzWidth="256px" nzBreakpoint="md" [(nzCollapsed)]="isCollapsed"
+    <nz-sider class="menu-sidebar" nzCollapsible nzWidth="256px" nzBreakpoint="lg" [(nzCollapsed)]="isCollapsed"
+              [nzCollapsedWidth]="0"
               [nzTrigger]="null">
       <div class="sidebar-logo">
         <a href="https://ng.ant.design/" target="_blank">
@@ -12,13 +13,16 @@
         <li nz-submenu nzOpen nzTitle="系统" nzIcon="dashboard">
           <ul>
             <li nz-menu-item nzMatchRouter>
-              <a routerLink="/abstract">概要信息</a>
+              <a routerLink="/abstract">概要</a>
             </li>
             <li nz-menu-item nzMatchRouter>
-              <a routerLink="/strategy">策略列表</a>
+              <a routerLink="/strategy">策略</a>
             </li>
             <li nz-menu-item nzMatchRouter>
-              <a routerLink="/config">配置列表</a>
+              <a routerLink="/process">进程</a>
+            </li>
+            <li nz-menu-item nzMatchRouter>
+              <a routerLink="/config">配置</a>
             </li>
           </ul>
         </li>
@@ -37,7 +41,8 @@
           <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
             <i class="trigger" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></i>
           </span>
-          <a nz-button nzType="primary" href="http://dev.honeydome.kherrisan.cn/oauth2/authorization/github">登录</a>
+          <a nz-button nzType="primary" [hidden]="hasLogin"
+             href="http://dev.honeydome.kherrisan.cn/oauth2/authorization/github">登录</a>
         </div>
       </nz-header>
       <nz-content>

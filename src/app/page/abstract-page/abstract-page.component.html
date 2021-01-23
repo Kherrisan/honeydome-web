@@ -1,35 +1,43 @@
 <div style="background: #ECECEC;padding:30px;">
-  <nz-row [nzGutter]="16">
-    <nz-col [nzSpan]="8">
-      <nz-statistic [nzValue]="(2019.111 | number: '1.0-2')!" [nzTitle]="'账户总额 (USDT)'"></nz-statistic>
+  <nz-row nzGutter="16">
+    <nz-col nzLg="8" nzMd="8" nzSm="12" nzXs="12">
+      <nz-statistic [nzValue]="(2019.111 | number: '1.0-2')!" [nzTitle]="'账户总额'"></nz-statistic>
     </nz-col>
-    <nz-col [nzSpan]="8">
-      <nz-statistic [nzValue]="(3 | number)!" [nzTitle]="'运行中的策略进程'"></nz-statistic>
+    <nz-col nzLg="8" nzMd="8" nzSm="12" nzXs="12">
+      <nz-statistic [nzValue]="(3 | number)!" [nzTitle]="'运行中的进程'"></nz-statistic>
     </nz-col>
-    <nz-col [nzSpan]="8">
+    <nz-col nzLg="8" nzMd="8" nzSm="12" nzXs="12">
       <nz-statistic [nzValue]="(2019.111 | number: '1.0-2')!" [nzTitle]="'运行时间'"></nz-statistic>
     </nz-col>
-  </nz-row>
-  <nz-row [nzGutter]="16" style="margin-top: 32px">
-    <nz-col [nzSpan]="8">
-      <nz-statistic [nzValue]="(2019.11 | number: '1.0-2')!" [nzTitle]="'日收益率'"></nz-statistic>
+    <nz-col nzLg="8" nzMd="8" nzSm="12" nzXs="12">
+      <nz-statistic [nzValue]="(0.1111 | percent:'.2')!" [nzTitle]="'日收益率'"></nz-statistic>
     </nz-col>
-    <nz-col [nzSpan]="8">
-      <nz-statistic [nzValue]="(2019.11 | number: '1.0-2')!" [nzTitle]="'周收益率'"></nz-statistic>
+    <nz-col nzLg="8" nzMd="8" nzSm="12" nzXs="12">
+      <nz-statistic [nzValue]="(0.043 | percent:'.2')!" [nzTitle]="'周收益率'"></nz-statistic>
     </nz-col>
-    <nz-col [nzSpan]="8">
-      <nz-statistic [nzValue]="(2019.11 | number: '1.0-2')!" [nzTitle]="'总收益率'"></nz-statistic>
+    <nz-col nzLg="8" nzMd="8" nzSm="12" nzXs="12">
+      <nz-statistic [nzValue]="(0.517 | percent:'.2')!" [nzTitle]="'总收益率'"></nz-statistic>
     </nz-col>
   </nz-row>
+
 </div>
 <h3 style="margin-top: 32px">实盘进程列表</h3>
 <nz-list nzBordered style="margin-top: 16px">
   <nz-list-item *ngFor="let process of firmbargains">
-    <nz-list-item-meta-title>ProcessId</nz-list-item-meta-title>
-    <nz-list-item-meta-description>StrategyName</nz-list-item-meta-description>
-    args0:11111,args1:12222
-    args0:11111,args1:12222
-    args0:11111,args1:12222
+    <nz-list-item-meta-title>
+      <a>ProcessId</a>
+    </nz-list-item-meta-title>
+    <nz-list-item-meta-description style="float: left">StrategyName</nz-list-item-meta-description>
+    <ng-template #contentTemplate>
+      <div>
+        <div *ngFor="let item of process.args | keyvalue">
+          {{item.key}} : {{item.value}}
+        </div>
+      </div>
+    </ng-template>
+    <button nz-button nz-popover nzPopoverTitle="参数列表" [nzPopoverContent]="contentTemplate" nzPopoverTrigger="click">
+      查看参数
+    </button>
   </nz-list-item>
 </nz-list>
 <h3 style="margin-top: 32px">回测进程列表</h3>

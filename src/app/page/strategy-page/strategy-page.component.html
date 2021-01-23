@@ -15,8 +15,8 @@
   </tbody>
 </nz-table>
 
-<nz-modal [(nzVisible)]="isModalVisible" nzTitle="运行新的策略" (nzOnCancel)="cancelModal()" (nzOnOk)="submitNewStrategy()"
-          [nzOkLoading]="isModalLoading" [nzOkDisabled]="argsForm.invalid">
+<nz-modal [(nzVisible)]="isModalVisible" nzTitle="运行新的策略" (nzOnCancel)="cancelModal()" (nzOnOk)="submitNewProcess()"
+          [nzOkLoading]="isModalLoading" >
   <div nz-row>
     <div nz-col nzSpan="4">
       <nz-form-label>运行类型</nz-form-label>

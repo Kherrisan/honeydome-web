@@ -12,32 +12,9 @@
 import { ProcessType } from './processType';
 
 
-export interface Process { 
-    /**
-     * 进程的id
-     */
-    pid?: string;
-    /**
-     * 进程所实例化的策略名
-     */
+export interface ProcessRequest { 
     name?: string;
     type?: ProcessType;
-    /**
-     * 进程的启动时间
-     */
-    launchTime?: string;
-    /**
-     * 进程的终结时间
-     */
-    terminateTime?: string;
-    /**
-     * 收益率
-     */
-    earningsRate?: number;
-    /**
-     * 回撤率
-     */
-    retracementRate?: number;
     args?: { [key: string]: string; };
 }
 

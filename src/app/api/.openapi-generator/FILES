@@ -5,6 +5,7 @@ api.module.ts
 api/api.ts
 api/config.service.ts
 api/data.service.ts
+api/default.service.ts
 api/process.service.ts
 api/strategy.service.ts
 configuration.ts
@@ -22,5 +23,6 @@ model/page.ts
 model/pageable.ts
 model/process.ts
 model/processDetail.ts
+model/processRequest.ts
 model/processType.ts
 variables.ts

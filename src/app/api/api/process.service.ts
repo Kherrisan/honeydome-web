@@ -19,7 +19,7 @@ import { Observable }                                        from 'rxjs';
 
 import { Process } from '../model/models';
 import { ProcessDetail } from '../model/models';
-import { ProcessType } from '../model/models';
+import { ProcessRequest } from '../model/models';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
@@ -88,24 +88,16 @@ export class ProcessService {
 
     /**
      * 创建新的进程
-     * @param name 
-     * @param type 
-     * @param args 
+     * @param processRequest 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createNewProcess(name: string, type: ProcessType, args: { [key: string]: string; }, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<Process>;
-    public createNewProcess(name: string, type: ProcessType, args: { [key: string]: string; }, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<Process>>;
-    public createNewProcess(name: string, type: ProcessType, args: { [key: string]: string; }, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<Process>>;
-    public createNewProcess(name: string, type: ProcessType, args: { [key: string]: string; }, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
-        if (name === null || name === undefined) {
-            throw new Error('Required parameter name was null or undefined when calling createNewProcess.');
-        }
-        if (type === null || type === undefined) {
-            throw new Error('Required parameter type was null or undefined when calling createNewProcess.');
-        }
-        if (args === null || args === undefined) {
-            throw new Error('Required parameter args was null or undefined when calling createNewProcess.');
+    public createNewProcess(processRequest: ProcessRequest, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<Process>;
+    public createNewProcess(processRequest: ProcessRequest, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<Process>>;
+    public createNewProcess(processRequest: ProcessRequest, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<Process>>;
+    public createNewProcess(processRequest: ProcessRequest, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+        if (processRequest === null || processRequest === undefined) {
+            throw new Error('Required parameter processRequest was null or undefined when calling createNewProcess.');
         }
 
         let headers = this.defaultHeaders;
@@ -123,13 +115,22 @@ export class ProcessService {
         }
 
 
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
+
         let responseType: 'text' | 'json' = 'json';
         if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
             responseType = 'text';
         }
 
         return this.httpClient.post<Process>(`${this.configuration.basePath}/process`,
-            null,
+            processRequest,
             {
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
@@ -187,13 +188,51 @@ export class ProcessService {
 
     /**
      * 查询进程的列表
+     * @param page 
+     * @param size 
+     * @param status 
+     * @param strategy 
+     * @param minEarningRate 
+     * @param maxRetracementRate 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getProcessList(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<Array<Process>>;
-    public getProcessList(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<Array<Process>>>;
-    public getProcessList(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<Array<Process>>>;
-    public getProcessList(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+    public getProcessList(page: number, size: number, status?: 'RUNNING' | 'FINISHED', strategy?: string, minEarningRate?: number, maxRetracementRate?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<Array<Process>>;
+    public getProcessList(page: number, size: number, status?: 'RUNNING' | 'FINISHED', strategy?: string, minEarningRate?: number, maxRetracementRate?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<Array<Process>>>;
+    public getProcessList(page: number, size: number, status?: 'RUNNING' | 'FINISHED', strategy?: string, minEarningRate?: number, maxRetracementRate?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<Array<Process>>>;
+    public getProcessList(page: number, size: number, status?: 'RUNNING' | 'FINISHED', strategy?: string, minEarningRate?: number, maxRetracementRate?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+        if (page === null || page === undefined) {
+            throw new Error('Required parameter page was null or undefined when calling getProcessList.');
+        }
+        if (size === null || size === undefined) {
+            throw new Error('Required parameter size was null or undefined when calling getProcessList.');
+        }
+
+        let queryParameters = new HttpParams({encoder: this.encoder});
+        if (status !== undefined && status !== null) {
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>status, 'status');
+        }
+        if (strategy !== undefined && strategy !== null) {
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>strategy, 'strategy');
+        }
+        if (minEarningRate !== undefined && minEarningRate !== null) {
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>minEarningRate, 'minEarningRate');
+        }
+        if (maxRetracementRate !== undefined && maxRetracementRate !== null) {
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>maxRetracementRate, 'maxRetracementRate');
+        }
+        if (page !== undefined && page !== null) {
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>page, 'page');
+        }
+        if (size !== undefined && size !== null) {
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>size, 'size');
+        }
 
         let headers = this.defaultHeaders;
 
@@ -217,6 +256,7 @@ export class ProcessService {
 
         return this.httpClient.get<Array<Process>>(`${this.configuration.basePath}/process`,
             {
+                params: queryParameters,
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

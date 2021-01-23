@@ -3,6 +3,7 @@ import {DataService, Kline} from '../../api';
 import {NzTableQueryParams} from 'ng-zorro-antd/table';
 import {NzMessageService} from 'ng-zorro-antd/message';
 import {FormBuilder, FormGroup} from '@angular/forms';
+import format from 'date-fns/format';
 
 @Component({
   selector: 'app-kline-page',
@@ -41,7 +42,6 @@ export class KlinePageComponent implements OnInit {
   }
 
   async onQueryParamsChange(params: NzTableQueryParams): Promise<void> {
-
     if (this.isSearched) {
       this.isSearched = false;
       return;
@@ -55,7 +55,14 @@ export class KlinePageComponent implements OnInit {
     this.isTableLoading = true;
     let resp;
     try {
-      resp = await this.data.getKlines(this.exchange, this.symbol, this.period, pageIndex, pageSize, null, null).toPromise();
+      let start, end: string | null;
+      if (this.startDatetime !== null) {
+        start = format(this.startDatetime, 'yyyy-MM-dd\'T\'hh:mm:ssXXX');
+      }
+      if (this.endDatetime !== null) {
+        end = format(this.endDatetime, 'yyyy-MM-dd\'T\'hh:mm:ssXXX');
+      }
+      resp = await this.data.getKlines(this.exchange, this.symbol, this.period, pageIndex, pageSize, start, end).toPromise();
     } catch (e) {
       this.message.error(e.message);
     }

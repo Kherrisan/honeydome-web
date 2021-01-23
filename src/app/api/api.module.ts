@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { ConfigService } from './api/config.service';
 import { DataService } from './api/data.service';
+import { DefaultService } from './api/default.service';
 import { ProcessService } from './api/process.service';
 import { StrategyService } from './api/strategy.service';
 

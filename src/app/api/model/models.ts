@@ -8,4 +8,5 @@ export * from './page';
 export * from './pageable';
 export * from './process';
 export * from './processDetail';
+export * from './processRequest';
 export * from './processType';

@@ -38,6 +38,7 @@ import {NzStatisticModule} from 'ng-zorro-antd/statistic';
 import {NzListModule} from 'ng-zorro-antd/list';
 import {NzProgressModule} from 'ng-zorro-antd/progress';
 import {ProcessPageComponent} from './page/process-page/process-page.component';
+import {NzPopoverModule} from 'ng-zorro-antd/popover';
 
 registerLocaleData(zh);
 
@@ -48,22 +49,27 @@ const routes: Routes = [
   {
     path: 'abstract',
     component: AbstractPageComponent,
-    data: {breadcrumb: '概要信息'},
+    data: {breadcrumb: '概要'},
   },
   {
     path: 'strategy',
     component: StrategyPageComponent,
-    data: {breadcrumb: '策略列表'},
+    data: {breadcrumb: '策略'},
   },
   {
     path: 'config',
     component: ConfigPageComponent,
-    data: {breadcrumb: '配置列表'},
+    data: {breadcrumb: '配置'},
   },
   {
     path: 'kline',
     component: KlinePageComponent,
-    data: {breadcrumb: 'K线历史数据'}
+    data: {breadcrumb: 'K线'}
+  },
+  {
+    path: 'process',
+    component: ProcessPageComponent,
+    data: {breadcrumb: '进程'}
   }
 ];
 
@@ -103,7 +109,8 @@ const routes: Routes = [
     NzTimePickerModule,
     NzStatisticModule,
     NzListModule,
-    NzProgressModule
+    NzProgressModule,
+    NzPopoverModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthenticationInterceptor, multi: true},

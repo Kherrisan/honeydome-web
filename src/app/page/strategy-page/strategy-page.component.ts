@@ -60,18 +60,27 @@ export class StrategyPageComponent implements OnInit {
     this.isModalLoading = false;
   }
 
-  async submitNewStrategy(): Promise<void> {
+  async submitNewProcess(): Promise<void> {
     for (const i in this.argsForm.controls) {
       this.argsForm.controls[i].markAsDirty();
-      this.argsForm.controls[i].updateValueAndValidity();
+      // this.argsForm.controls[i].updateValueAndValidity();
     }
     const args: { [p: string]: string } = {};
     this.listOfControl.forEach(ctl => {
       args[this.argsForm.controls[ctl.keyControl].value] = this.argsForm.controls[ctl.valueControl].value;
     });
+    args.start = '2020-12-01 00:00:00';
+    args.end = '2020-12-31 00:00:00';
+    args.symbol = 'btc/usdt';
+    args.exchange = 'huobi';
+    args['assets#huobi#usdt'] = '10000';
     this.isModalLoading = true;
     try {
-      const resp: Process = await this.processService.createNewProcess(this.processName, ProcessType[this.processType], args).toPromise();
+      const resp: Process = await this.processService.createNewProcess({
+        name: this.processName,
+        type: ProcessType[this.processType],
+        args: args
+      }).toPromise();
       this.message.success(`启动新的 ${this.processType} 进程成功，进程 ID: ${resp.pid}`);
     } catch (e) {
       this.message.error(e.message);
